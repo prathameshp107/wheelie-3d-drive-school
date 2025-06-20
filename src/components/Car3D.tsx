@@ -59,7 +59,7 @@ const CarModel: React.FC<CarModelProps> = ({ color = '#1e40af', type = 'sedan' }
               />
             </mesh>
             {/* Wheels */}
-            {[[-1.4, -0.3, 0.9], [1.4, -0.3, 0.9], [-1.4, -0.3, -0.9], [1.4, -0.3, -0.9]].map((pos, i) => (
+            {([-1.4, -0.3, 0.9] as const, [1.4, -0.3, 0.9] as const, [-1.4, -0.3, -0.9] as const, [1.4, -0.3, -0.9] as const).map((pos, i) => (
               <mesh key={i} position={pos} rotation={[Math.PI / 2, 0, 0]} castShadow>
                 <cylinderGeometry args={[0.4, 0.4, 0.3]} />
                 <meshStandardMaterial color="#2a2a2a" />
@@ -104,7 +104,7 @@ const CarModel: React.FC<CarModelProps> = ({ color = '#1e40af', type = 'sedan' }
               />
             </mesh>
             {/* Wheels - larger */}
-            {[[-1.8, -0.2, 1], [1.8, -0.2, 1], [-1.8, -0.2, -1], [1.8, -0.2, -1]].map((pos, i) => (
+            {([-1.8, -0.2, 1] as const, [1.8, -0.2, 1] as const, [-1.8, -0.2, -1] as const, [1.8, -0.2, -1] as const).map((pos, i) => (
               <mesh key={i} position={pos} rotation={[Math.PI / 2, 0, 0]} castShadow>
                 <cylinderGeometry args={[0.5, 0.5, 0.4]} />
                 <meshStandardMaterial color="#2a2a2a" />
@@ -149,7 +149,7 @@ const CarModel: React.FC<CarModelProps> = ({ color = '#1e40af', type = 'sedan' }
               />
             </mesh>
             {/* Wheels */}
-            {[[-1.6, -0.3, 0.9], [1.6, -0.3, 0.9], [-1.6, -0.3, -0.9], [1.6, -0.3, -0.9]].map((pos, i) => (
+            {([-1.6, -0.3, 0.9] as const, [1.6, -0.3, 0.9] as const, [-1.6, -0.3, -0.9] as const, [1.6, -0.3, -0.9] as const).map((pos, i) => (
               <mesh key={i} position={pos} rotation={[Math.PI / 2, 0, 0]} castShadow>
                 <cylinderGeometry args={[0.4, 0.4, 0.3]} />
                 <meshStandardMaterial color="#2a2a2a" />
