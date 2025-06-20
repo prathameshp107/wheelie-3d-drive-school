@@ -1,179 +1,9 @@
 
-import React, { useRef, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import React, { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Environment, ContactShadows, PerspectiveCamera } from '@react-three/drei';
-import * as THREE from 'three';
-
-interface CarModelProps {
-  color?: string;
-  type?: 'hatchback' | 'sedan' | 'suv';
-}
-
-const CarModel: React.FC<CarModelProps> = ({ color = '#1e40af', type = 'sedan' }) => {
-  const meshRef = useRef<THREE.Group>(null);
-  const [hovered, setHovered] = useState(false);
-
-  useFrame((state) => {
-    if (meshRef.current && !hovered) {
-      meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
-    }
-  });
-
-  // Different car geometries based on type
-  const getCarGeometry = () => {
-    switch (type) {
-      case 'hatchback':
-        return (
-          <group 
-            ref={meshRef}
-            onPointerEnter={() => setHovered(true)}
-            onPointerLeave={() => setHovered(false)}
-          >
-            {/* Main body - more compact */}
-            <mesh position={[0, 0.5, 0]} castShadow receiveShadow>
-              <boxGeometry args={[3.5, 1, 1.8]} />
-              <meshPhysicalMaterial
-                color={color}
-                metalness={0.9}
-                roughness={0.1}
-                clearcoat={1}
-                clearcoatRoughness={0.1}
-              />
-            </mesh>
-            {/* Roof - shorter */}
-            <mesh position={[0, 1.2, 0]} castShadow receiveShadow>
-              <boxGeometry args={[2.8, 0.4, 1.6]} />
-              <meshPhysicalMaterial
-                color={color}
-                metalness={0.9}
-                roughness={0.1}
-                clearcoat={1}
-                clearcoatRoughness={0.1}
-              />
-            </mesh>
-            {/* Windows */}
-            <mesh position={[0, 1.3, 0]}>
-              <boxGeometry args={[2.6, 0.2, 1.4]} />
-              <meshPhysicalMaterial
-                color="#87ceeb"
-                transparent
-                opacity={0.3}
-                metalness={0}
-                roughness={0}
-              />
-            </mesh>
-            {/* Wheels */}
-            {([[-1.4, -0.3, 0.9] as const, [1.4, -0.3, 0.9] as const, [-1.4, -0.3, -0.9] as const, [1.4, -0.3, -0.9] as const]).map((pos, i) => (
-              <mesh key={i} position={pos} rotation={[Math.PI / 2, 0, 0]} castShadow>
-                <cylinderGeometry args={[0.4, 0.4, 0.3]} />
-                <meshStandardMaterial color="#2a2a2a" />
-              </mesh>
-            ))}
-          </group>
-        );
-      case 'suv':
-        return (
-          <group 
-            ref={meshRef}
-            onPointerEnter={() => setHovered(true)}
-            onPointerLeave={() => setHovered(false)}
-          >
-            {/* Main body - taller and larger */}
-            <mesh position={[0, 0.8, 0]} castShadow receiveShadow>
-              <boxGeometry args={[4.2, 1.6, 2]} />
-              <meshPhysicalMaterial
-                color={color}
-                metalness={0.9}
-                roughness={0.1}
-                clearcoat={1}
-                clearcoatRoughness={0.1}
-              />
-            </mesh>
-            {/* Roof */}
-            <mesh position={[0, 1.8, 0]} castShadow receiveShadow>
-              <boxGeometry args={[3.8, 0.4, 1.8]} />
-              <meshPhysicalMaterial
-                color={color}
-                metalness={0.9}
-                roughness={0.1}
-                clearcoat={1}
-                clearcoatRoughness={0.1}
-              />
-            </mesh>
-            {/* Windows */}
-            <mesh position={[0, 1.9, 0]}>
-              <boxGeometry args={[3.6, 0.2, 1.6]} />
-              <meshPhysicalMaterial
-                color="#87ceeb"
-                transparent
-                opacity={0.3}
-                metalness={0}
-                roughness={0}
-              />
-            </mesh>
-            {/* Wheels - larger */}
-            {([[-1.8, -0.2, 1] as const, [1.8, -0.2, 1] as const, [-1.8, -0.2, -1] as const, [1.8, -0.2, -1] as const]).map((pos, i) => (
-              <mesh key={i} position={pos} rotation={[Math.PI / 2, 0, 0]} castShadow>
-                <cylinderGeometry args={[0.5, 0.5, 0.4]} />
-                <meshStandardMaterial color="#2a2a2a" />
-              </mesh>
-            ))}
-          </group>
-        );
-      default: // sedan
-        return (
-          <group 
-            ref={meshRef}
-            onPointerEnter={() => setHovered(true)}
-            onPointerLeave={() => setHovered(false)}
-          >
-            {/* Main body */}
-            <mesh position={[0, 0.5, 0]} castShadow receiveShadow>
-              <boxGeometry args={[4, 1, 1.8]} />
-              <meshPhysicalMaterial
-                color={color}
-                metalness={0.9}
-                roughness={0.1}
-                clearcoat={1}
-                clearcoatRoughness={0.1}
-              />
-            </mesh>
-            {/* Roof */}
-            <mesh position={[0, 1.2, 0]} castShadow receiveShadow>
-              <boxGeometry args={[3.2, 0.4, 1.6]} />
-              <meshPhysicalMaterial
-                color={color}
-                metalness={0.9}
-                roughness={0.1}
-                clearcoat={1}
-                clearcoatRoughness={0.1}
-              />
-            </mesh>
-            {/* Windows */}
-            <mesh position={[0, 1.3, 0]}>
-              <boxGeometry args={[3, 0.2, 1.4]} />
-              <meshPhysicalMaterial
-                color="#87ceeb"
-                transparent
-                opacity={0.3}
-                metalness={0}
-                roughness={0}
-              />
-            </mesh>
-            {/* Wheels */}
-            {([[-1.6, -0.3, 0.9] as const, [1.6, -0.3, 0.9] as const, [-1.6, -0.3, -0.9] as const, [1.6, -0.3, -0.9] as const]).map((pos, i) => (
-              <mesh key={i} position={pos} rotation={[Math.PI / 2, 0, 0]} castShadow>
-                <cylinderGeometry args={[0.4, 0.4, 0.3]} />
-                <meshStandardMaterial color="#2a2a2a" />
-              </mesh>
-            ))}
-          </group>
-        );
-    }
-  };
-
-  return getCarGeometry();
-};
+import { CarModel } from './CarModel';
+import { FallbackCarModel } from './FallbackCarModel';
 
 interface Car3DProps {
   color?: string;
@@ -181,7 +11,21 @@ interface Car3DProps {
   className?: string;
 }
 
-const Car3D: React.FC<Car3DProps> = ({ color, type, className = "w-full h-96" }) => {
+const Car3D: React.FC<Car3DProps> = ({ color = '#1e40af', type = 'sedan', className = "w-full h-96" }) => {
+  // Map car types to model paths
+  const getModelPath = (carType: string) => {
+    switch (carType) {
+      case 'hatchback':
+        return '/models/maruti-swift.glb';
+      case 'suv':
+        return '/models/hyundai-creta.glb';
+      default: // sedan
+        return '/models/honda-city.glb';
+    }
+  };
+
+  const modelPath = getModelPath(type);
+
   return (
     <div className={className}>
       <Canvas shadows>
@@ -194,7 +38,16 @@ const Car3D: React.FC<Car3DProps> = ({ color, type, className = "w-full h-96" })
           shadow-mapSize={[2048, 2048]}
         />
         <pointLight position={[-10, -10, -10]} intensity={0.5} />
-        <CarModel color={color} type={type} />
+        
+        <Suspense fallback={<FallbackCarModel color={color} type={type} />}>
+          <CarModel 
+            modelPath={modelPath}
+            color={color}
+            scale={1}
+            position={[0, -1, 0]}
+          />
+        </Suspense>
+        
         <Environment preset="city" />
         <ContactShadows position={[0, -1.4, 0]} opacity={0.4} scale={10} blur={2.5} />
         <OrbitControls
