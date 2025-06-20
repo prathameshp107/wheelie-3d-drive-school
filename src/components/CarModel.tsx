@@ -3,31 +3,50 @@ import React, { useRef, useState } from 'react';
 import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
+import { FallbackCarModel } from './FallbackCarModel';
 
 interface CarModelProps {
   modelPath: string;
   color?: string;
   scale?: number;
   position?: [number, number, number];
+  type?: 'hatchback' | 'sedan' | 'suv';
 }
 
 export const CarModel: React.FC<CarModelProps> = ({ 
   modelPath, 
   color = '#1e40af', 
   scale = 1, 
-  position = [0, 0, 0] 
+  position = [0, 0, 0],
+  type = 'sedan'
 }) => {
   const meshRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   
-  // Load the GLTF model
-  const { scene } = useGLTF(modelPath);
+  // Load the GLTF model with error handling
+  let scene;
+  try {
+    const gltf = useGLTF(modelPath, undefined, undefined, (error) => {
+      console.log('Model loading failed, falling back to geometric car:', error);
+      setLoadError(true);
+    });
+    scene = gltf.scene;
+  } catch (error) {
+    console.log('Model loading failed, falling back to geometric car:', error);
+    setLoadError(true);
+  }
   
   useFrame((state) => {
     if (meshRef.current && !hovered) {
       meshRef.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
     }
   });
+
+  // If model failed to load, use fallback
+  if (loadError || !scene) {
+    return <FallbackCarModel color={color} type={type} />;
+  }
 
   // Clone the scene to avoid modifying the original
   const clonedScene = scene.clone();
@@ -57,7 +76,8 @@ export const CarModel: React.FC<CarModelProps> = ({
   );
 };
 
-// Preload models for better performance
-useGLTF.preload('/models/honda-city.glb');
-useGLTF.preload('/models/maruti-swift.glb');
-useGLTF.preload('/models/hyundai-creta.glb');
+// Remove preload attempts since files don't exist yet
+// These will be uncommented once actual GLB files are added
+// useGLTF.preload('/models/honda-city.glb');
+// useGLTF.preload('/models/maruti-swift.glb');
+// useGLTF.preload('/models/hyundai-creta.glb');

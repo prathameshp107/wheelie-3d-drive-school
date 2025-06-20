@@ -45,6 +45,7 @@ const Car3D: React.FC<Car3DProps> = ({ color = '#1e40af', type = 'sedan', classN
             color={color}
             scale={1}
             position={[0, -1, 0]}
+            type={type}
           />
         </Suspense>
         
