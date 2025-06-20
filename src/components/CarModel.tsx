@@ -24,16 +24,23 @@ export const CarModel: React.FC<CarModelProps> = ({
   const [hovered, setHovered] = useState(false);
   const [loadError, setLoadError] = useState(false);
   
-  // Load the GLTF model with proper error handling
-  const { scene, error } = useGLTF(modelPath);
+  // Use a state to track if we should try to load the model
+  const [shouldLoad, setShouldLoad] = useState(true);
   
-  // Handle loading errors in useEffect to avoid render cycle issues
-  useEffect(() => {
-    if (error) {
+  let scene = null;
+  
+  // Only try to load if we haven't encountered an error
+  if (shouldLoad && !loadError) {
+    try {
+      const gltf = useGLTF(modelPath);
+      scene = gltf.scene;
+    } catch (error) {
+      // This will be caught by the error boundary
       console.log('Model loading failed, falling back to geometric car:', error);
       setLoadError(true);
+      setShouldLoad(false);
     }
-  }, [error]);
+  }
   
   useFrame((state) => {
     if (meshRef.current && !hovered) {
@@ -41,7 +48,7 @@ export const CarModel: React.FC<CarModelProps> = ({
     }
   });
 
-  // If model failed to load, use fallback
+  // If model failed to load or doesn't exist, use fallback
   if (loadError || !scene) {
     return <FallbackCarModel color={color} type={type} />;
   }
