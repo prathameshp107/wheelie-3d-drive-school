@@ -24,7 +24,11 @@ const CarModel: React.FC<CarModelProps> = ({ color = '#1e40af', type = 'sedan' }
     switch (type) {
       case 'hatchback':
         return (
-          <group ref={meshRef}>
+          <group 
+            ref={meshRef}
+            onPointerEnter={() => setHovered(true)}
+            onPointerLeave={() => setHovered(false)}
+          >
             {/* Main body - more compact */}
             <mesh position={[0, 0.5, 0]} castShadow receiveShadow>
               <boxGeometry args={[3.5, 1, 1.8]} />
@@ -59,7 +63,7 @@ const CarModel: React.FC<CarModelProps> = ({ color = '#1e40af', type = 'sedan' }
               />
             </mesh>
             {/* Wheels */}
-            {([-1.4, -0.3, 0.9] as const, [1.4, -0.3, 0.9] as const, [-1.4, -0.3, -0.9] as const, [1.4, -0.3, -0.9] as const).map((pos, i) => (
+            {([[-1.4, -0.3, 0.9] as const, [1.4, -0.3, 0.9] as const, [-1.4, -0.3, -0.9] as const, [1.4, -0.3, -0.9] as const]).map((pos, i) => (
               <mesh key={i} position={pos} rotation={[Math.PI / 2, 0, 0]} castShadow>
                 <cylinderGeometry args={[0.4, 0.4, 0.3]} />
                 <meshStandardMaterial color="#2a2a2a" />
@@ -69,7 +73,11 @@ const CarModel: React.FC<CarModelProps> = ({ color = '#1e40af', type = 'sedan' }
         );
       case 'suv':
         return (
-          <group ref={meshRef}>
+          <group 
+            ref={meshRef}
+            onPointerEnter={() => setHovered(true)}
+            onPointerLeave={() => setHovered(false)}
+          >
             {/* Main body - taller and larger */}
             <mesh position={[0, 0.8, 0]} castShadow receiveShadow>
               <boxGeometry args={[4.2, 1.6, 2]} />
@@ -104,7 +112,7 @@ const CarModel: React.FC<CarModelProps> = ({ color = '#1e40af', type = 'sedan' }
               />
             </mesh>
             {/* Wheels - larger */}
-            {([-1.8, -0.2, 1] as const, [1.8, -0.2, 1] as const, [-1.8, -0.2, -1] as const, [1.8, -0.2, -1] as const).map((pos, i) => (
+            {([[-1.8, -0.2, 1] as const, [1.8, -0.2, 1] as const, [-1.8, -0.2, -1] as const, [1.8, -0.2, -1] as const]).map((pos, i) => (
               <mesh key={i} position={pos} rotation={[Math.PI / 2, 0, 0]} castShadow>
                 <cylinderGeometry args={[0.5, 0.5, 0.4]} />
                 <meshStandardMaterial color="#2a2a2a" />
@@ -114,7 +122,11 @@ const CarModel: React.FC<CarModelProps> = ({ color = '#1e40af', type = 'sedan' }
         );
       default: // sedan
         return (
-          <group ref={meshRef}>
+          <group 
+            ref={meshRef}
+            onPointerEnter={() => setHovered(true)}
+            onPointerLeave={() => setHovered(false)}
+          >
             {/* Main body */}
             <mesh position={[0, 0.5, 0]} castShadow receiveShadow>
               <boxGeometry args={[4, 1, 1.8]} />
@@ -149,7 +161,7 @@ const CarModel: React.FC<CarModelProps> = ({ color = '#1e40af', type = 'sedan' }
               />
             </mesh>
             {/* Wheels */}
-            {([-1.6, -0.3, 0.9] as const, [1.6, -0.3, 0.9] as const, [-1.6, -0.3, -0.9] as const, [1.6, -0.3, -0.9] as const).map((pos, i) => (
+            {([[-1.6, -0.3, 0.9] as const, [1.6, -0.3, 0.9] as const, [-1.6, -0.3, -0.9] as const, [1.6, -0.3, -0.9] as const]).map((pos, i) => (
               <mesh key={i} position={pos} rotation={[Math.PI / 2, 0, 0]} castShadow>
                 <cylinderGeometry args={[0.4, 0.4, 0.3]} />
                 <meshStandardMaterial color="#2a2a2a" />
@@ -160,15 +172,7 @@ const CarModel: React.FC<CarModelProps> = ({ color = '#1e40af', type = 'sedan' }
     }
   };
 
-  return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="w-full h-full"
-    >
-      {getCarGeometry()}
-    </div>
-  );
+  return getCarGeometry();
 };
 
 interface Car3DProps {
