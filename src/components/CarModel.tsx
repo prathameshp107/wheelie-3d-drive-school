@@ -1,5 +1,5 @@
 
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useGLTF } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -24,18 +24,16 @@ export const CarModel: React.FC<CarModelProps> = ({
   const [hovered, setHovered] = useState(false);
   const [loadError, setLoadError] = useState(false);
   
-  // Load the GLTF model with error handling
-  let scene;
-  try {
-    const gltf = useGLTF(modelPath, undefined, undefined, (error) => {
+  // Load the GLTF model with proper error handling
+  const { scene, error } = useGLTF(modelPath);
+  
+  // Handle loading errors in useEffect to avoid render cycle issues
+  useEffect(() => {
+    if (error) {
       console.log('Model loading failed, falling back to geometric car:', error);
       setLoadError(true);
-    });
-    scene = gltf.scene;
-  } catch (error) {
-    console.log('Model loading failed, falling back to geometric car:', error);
-    setLoadError(true);
-  }
+    }
+  }, [error]);
   
   useFrame((state) => {
     if (meshRef.current && !hovered) {
