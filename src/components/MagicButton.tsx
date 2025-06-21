@@ -55,8 +55,7 @@ const MagicButton: React.FC<MagicButtonProps> = ({
   return (
     <Button
       className={cn(
-        'rounded-full font-sem
-old transition-all duration-300 transform hover:scale-105 relative overflow-hidden group',
+        'rounded-full font-semibold transition-all duration-300 transform hover:scale-105 relative overflow-hidden group',
         getVariantClasses(),
         getSizeClasses(),
         className
