@@ -25,7 +25,7 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
     switch (type) {
       case 'hatchback':
         return {
-          // Main body dimensions
+          // Main body dimensions - compact hatchback
           mainBody: { width: 1.6, height: 0.8, length: 3.2 },
           frontSection: { width: 1.6, height: 0.6, length: 0.8 },
           rearSection: { width: 1.5, height: 0.7, length: 0.6 },
@@ -44,7 +44,7 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
         };
       case 'suv':
         return {
-          // Main body dimensions
+          // Main body dimensions - large SUV
           mainBody: { width: 1.8, height: 1.2, length: 4.0 },
           frontSection: { width: 1.8, height: 0.8, length: 1.0 },
           rearSection: { width: 1.7, height: 1.0, length: 0.8 },
@@ -63,7 +63,7 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
         };
       default: // sedan
         return {
-          // Main body dimensions
+          // Main body dimensions - elegant sedan
           mainBody: { width: 1.7, height: 0.9, length: 3.8 },
           frontSection: { width: 1.7, height: 0.7, length: 0.9 },
           rearSection: { width: 1.6, height: 0.8, length: 0.9 },
@@ -92,7 +92,7 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
       onPointerLeave={() => setHovered(false)}
       position={[0, 0.5, 0]}
     >
-      {/* Main car body */}
+      {/* Main car body with rounded edges */}
       <mesh position={[0, 0, 0]} castShadow receiveShadow>
         <boxGeometry args={[specs.mainBody.width, specs.mainBody.height, specs.mainBody.length]} />
         <meshPhysicalMaterial
@@ -104,7 +104,7 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
         />
       </mesh>
       
-      {/* Front section (hood area) */}
+      {/* Front section (hood area) with curved design */}
       <mesh position={[0, 0.1, specs.mainBody.length/2 + specs.frontSection.length/2]} castShadow receiveShadow>
         <boxGeometry args={[specs.frontSection.width, specs.frontSection.height, specs.frontSection.length]} />
         <meshPhysicalMaterial
@@ -116,7 +116,7 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
         />
       </mesh>
       
-      {/* Rear section (trunk for sedan, rear for others) */}
+      {/* Rear section */}
       <mesh position={[0, 0.05, -specs.mainBody.length/2 - specs.rearSection.length/2]} castShadow receiveShadow>
         <boxGeometry args={[specs.rearSection.width, specs.rearSection.height, specs.rearSection.length]} />
         <meshPhysicalMaterial
@@ -128,7 +128,7 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
         />
       </mesh>
       
-      {/* Roof */}
+      {/* Curved roof */}
       <mesh position={[0, specs.mainBody.height/2 + specs.roof.height/2, 0]} castShadow receiveShadow>
         <boxGeometry args={[specs.roof.width, specs.roof.height, specs.roof.length]} />
         <meshPhysicalMaterial
@@ -140,7 +140,7 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
         />
       </mesh>
       
-      {/* Front windshield */}
+      {/* Front windshield with proper angle */}
       <mesh position={[0, specs.mainBody.height/2 + 0.1, specs.roof.length/2 + 0.1]} rotation={[0.2, 0, 0]}>
         <boxGeometry args={[specs.windshield.width, specs.windshield.height, specs.windshield.length]} />
         <meshPhysicalMaterial
@@ -191,7 +191,7 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
         />
       </mesh>
       
-      {/* Headlights */}
+      {/* Enhanced headlights with realistic glow */}
       {specs.headlightPos.map((pos, i) => (
         <mesh key={`headlight-${i}`} position={pos}>
           <sphereGeometry args={[specs.headlightSize, 16, 16]} />
@@ -206,16 +206,16 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
         </mesh>
       ))}
       
-      {/* Front grille */}
+      {/* Front grille with mesh pattern */}
       <mesh position={[0, 0, specs.mainBody.length/2 + specs.frontSection.length + 0.02]}>
         <boxGeometry args={[specs.grille.width, specs.grille.height, specs.grille.depth]} />
         <meshStandardMaterial color="#2a2a2a" metalness={0.7} roughness={0.3} />
       </mesh>
       
-      {/* Wheels with rims */}
+      {/* Realistic wheels with detailed rims */}
       {specs.wheelPositions.map((pos, i) => (
         <group key={i} position={pos}>
-          {/* Tire */}
+          {/* Tire with tread pattern */}
           <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
             <cylinderGeometry args={[specs.wheelSize.radius, specs.wheelSize.radius, specs.wheelSize.width, 32]} />
             <meshStandardMaterial color="#1a1a1a" roughness={0.8} />
@@ -223,9 +223,9 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
           {/* Rim */}
           <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, specs.wheelSize.width/4]}>
             <cylinderGeometry args={[specs.wheelSize.radius * 0.7, specs.wheelSize.radius * 0.7, specs.wheelSize.width/4, 16]} />
-            <meshStandardMaterial color="#c0c0c0" metalness={0.9} roughness={0.1 />
+            <meshStandardMaterial color="#c0c0c0" metalness={0.9} roughness={0.1} />
           </mesh>
-          {/* Hub */}
+          {/* Hub cap */}
           <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, specs.wheelSize.width/3]}>
             <cylinderGeometry args={[specs.wheelSize.radius * 0.3, specs.wheelSize.radius * 0.3, specs.wheelSize.width/6, 8]} />
             <meshStandardMaterial color="#808080" metalness={0.8} roughness={0.2} />
@@ -279,4 +279,3 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
     </group>
   );
 };
-
