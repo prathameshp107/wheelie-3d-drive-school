@@ -242,7 +242,6 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
             <meshStandardMaterial 
               color="#0a0a0a" 
               roughness={0.9}
-              normalScale={[0.5, 0.5]}
             />
           </mesh>
           {/* Sport rim */}
