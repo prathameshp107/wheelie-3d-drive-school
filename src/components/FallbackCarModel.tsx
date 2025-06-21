@@ -36,10 +36,10 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
           sideWindows: { width: 0.1, height: 0.5, length: 1.8 },
           // Wheels and positioning
           wheelSize: { radius: 0.3, width: 0.2 },
-          wheelPositions: [[-1.2, -0.4, 0.7], [1.2, -0.4, 0.7], [-1.2, -0.4, -0.7], [1.2, -0.4, -0.7]],
+          wheelPositions: [[-1.2, -0.4, 0.7], [1.2, -0.4, 0.7], [-1.2, -0.4, -0.7], [1.2, -0.4, -0.7]] as [number, number, number][],
           // Details
           headlightSize: 0.15,
-          headlightPos: [[-0.6, 0.1, 1.7], [0.6, 0.1, 1.7]],
+          headlightPos: [[-0.6, 0.1, 1.7], [0.6, 0.1, 1.7]] as [number, number, number][],
           grille: { width: 0.8, height: 0.3, depth: 0.05 }
         };
       case 'suv':
@@ -55,10 +55,10 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
           sideWindows: { width: 0.1, height: 0.7, length: 2.2 },
           // Wheels and positioning
           wheelSize: { radius: 0.4, width: 0.25 },
-          wheelPositions: [[-1.6, -0.2, 0.8], [1.6, -0.2, 0.8], [-1.6, -0.2, -0.8], [1.6, -0.2, -0.8]],
+          wheelPositions: [[-1.6, -0.2, 0.8], [1.6, -0.2, 0.8], [-1.6, -0.2, -0.8], [1.6, -0.2, -0.8]] as [number, number, number][],
           // Details
           headlightSize: 0.18,
-          headlightPos: [[-0.7, 0.2, 2.1], [0.7, 0.2, 2.1]],
+          headlightPos: [[-0.7, 0.2, 2.1], [0.7, 0.2, 2.1]] as [number, number, number][],
           grille: { width: 1.0, height: 0.4, depth: 0.05 }
         };
       default: // sedan
@@ -74,10 +74,10 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
           sideWindows: { width: 0.1, height: 0.6, length: 2.0 },
           // Wheels and positioning
           wheelSize: { radius: 0.32, width: 0.22 },
-          wheelPositions: [[-1.4, -0.35, 0.75], [1.4, -0.35, 0.75], [-1.4, -0.35, -0.75], [1.4, -0.35, -0.75]],
+          wheelPositions: [[-1.4, -0.35, 0.75], [1.4, -0.35, 0.75], [-1.4, -0.35, -0.75], [1.4, -0.35, -0.75]] as [number, number, number][],
           // Details
           headlightSize: 0.16,
-          headlightPos: [[-0.65, 0.15, 2.0], [0.65, 0.15, 2.0]],
+          headlightPos: [[-0.65, 0.15, 2.0], [0.65, 0.15, 2.0]] as [number, number, number][],
           grille: { width: 0.9, height: 0.35, depth: 0.05 }
         };
     }
@@ -92,190 +92,241 @@ export const FallbackCarModel: React.FC<FallbackCarModelProps> = ({
       onPointerLeave={() => setHovered(false)}
       position={[0, 0.5, 0]}
     >
-      {/* Main car body with rounded edges */}
+      {/* Car body with curved design */}
       <mesh position={[0, 0, 0]} castShadow receiveShadow>
         <boxGeometry args={[specs.mainBody.width, specs.mainBody.height, specs.mainBody.length]} />
         <meshPhysicalMaterial
           color={color}
-          metalness={0.8}
-          roughness={0.2}
+          metalness={0.9}
+          roughness={0.1}
           clearcoat={1}
-          clearcoatRoughness={0.1}
+          clearcoatRoughness={0.05}
+          envMapIntensity={1.5}
         />
       </mesh>
-      
-      {/* Front section (hood area) with curved design */}
-      <mesh position={[0, 0.1, specs.mainBody.length/2 + specs.frontSection.length/2]} castShadow receiveShadow>
+
+      {/* Front hood with curved design */}
+      <mesh position={[0, 0.15, specs.mainBody.length/2 + specs.frontSection.length/2]} castShadow receiveShadow>
         <boxGeometry args={[specs.frontSection.width, specs.frontSection.height, specs.frontSection.length]} />
         <meshPhysicalMaterial
           color={color}
-          metalness={0.8}
-          roughness={0.2}
+          metalness={0.9}
+          roughness={0.1}
           clearcoat={1}
-          clearcoatRoughness={0.1}
+          clearcoatRoughness={0.05}
+          envMapIntensity={1.5}
         />
       </mesh>
-      
-      {/* Rear section */}
-      <mesh position={[0, 0.05, -specs.mainBody.length/2 - specs.rearSection.length/2]} castShadow receiveShadow>
+
+      {/* Rear trunk section */}
+      <mesh position={[0, 0.1, -specs.mainBody.length/2 - specs.rearSection.length/2]} castShadow receiveShadow>
         <boxGeometry args={[specs.rearSection.width, specs.rearSection.height, specs.rearSection.length]} />
         <meshPhysicalMaterial
           color={color}
-          metalness={0.8}
-          roughness={0.2}
+          metalness={0.9}
+          roughness={0.1}
           clearcoat={1}
-          clearcoatRoughness={0.1}
+          clearcoatRoughness={0.05}
+          envMapIntensity={1.5}
         />
       </mesh>
-      
-      {/* Curved roof */}
+
+      {/* Sleek curved roof */}
       <mesh position={[0, specs.mainBody.height/2 + specs.roof.height/2, 0]} castShadow receiveShadow>
         <boxGeometry args={[specs.roof.width, specs.roof.height, specs.roof.length]} />
         <meshPhysicalMaterial
           color={color}
-          metalness={0.8}
-          roughness={0.2}
+          metalness={0.9}
+          roughness={0.1}
           clearcoat={1}
-          clearcoatRoughness={0.1}
+          clearcoatRoughness={0.05}
+          envMapIntensity={1.5}
         />
       </mesh>
-      
-      {/* Front windshield with proper angle */}
-      <mesh position={[0, specs.mainBody.height/2 + 0.1, specs.roof.length/2 + 0.1]} rotation={[0.2, 0, 0]}>
+
+      {/* Angled front windshield */}
+      <mesh position={[0, specs.mainBody.height/2 + 0.15, specs.roof.length/2 + 0.15]} rotation={[0.15, 0, 0]}>
         <boxGeometry args={[specs.windshield.width, specs.windshield.height, specs.windshield.length]} />
         <meshPhysicalMaterial
           color="#87ceeb"
           transparent
-          opacity={0.3}
+          opacity={0.2}
           metalness={0}
           roughness={0}
-          transmission={0.9}
+          transmission={0.95}
+          thickness={0.1}
         />
       </mesh>
-      
-      {/* Rear window */}
-      <mesh position={[0, specs.mainBody.height/2 + 0.05, -specs.roof.length/2 - 0.1]} rotation={[-0.2, 0, 0]}>
+
+      {/* Angled rear window */}
+      <mesh position={[0, specs.mainBody.height/2 + 0.1, -specs.roof.length/2 - 0.15]} rotation={[-0.15, 0, 0]}>
         <boxGeometry args={[specs.rearWindow.width, specs.rearWindow.height, specs.rearWindow.length]} />
         <meshPhysicalMaterial
           color="#87ceeb"
           transparent
-          opacity={0.3}
+          opacity={0.2}
           metalness={0}
           roughness={0}
-          transmission={0.9}
+          transmission={0.95}
+          thickness={0.1}
         />
       </mesh>
-      
+
       {/* Side windows */}
-      <mesh position={[specs.roof.width/2 + 0.05, specs.mainBody.height/2 + 0.1, 0]}>
+      <mesh position={[specs.roof.width/2 + 0.05, specs.mainBody.height/2 + 0.15, 0]}>
         <boxGeometry args={[specs.sideWindows.width, specs.sideWindows.height, specs.sideWindows.length]} />
         <meshPhysicalMaterial
           color="#87ceeb"
           transparent
-          opacity={0.3}
+          opacity={0.2}
           metalness={0}
           roughness={0}
-          transmission={0.9}
+          transmission={0.95}
+          thickness={0.1}
         />
       </mesh>
-      
-      <mesh position={[-specs.roof.width/2 - 0.05, specs.mainBody.height/2 + 0.1, 0]}>
+
+      <mesh position={[-specs.roof.width/2 - 0.05, specs.mainBody.height/2 + 0.15, 0]}>
         <boxGeometry args={[specs.sideWindows.width, specs.sideWindows.height, specs.sideWindows.length]} />
         <meshPhysicalMaterial
           color="#87ceeb"
           transparent
-          opacity={0.3}
+          opacity={0.2}
           metalness={0}
           roughness={0}
-          transmission={0.9}
+          transmission={0.95}
+          thickness={0.1}
         />
       </mesh>
-      
-      {/* Enhanced headlights with realistic glow */}
+
+      {/* Realistic LED headlights with glow */}
       {specs.headlightPos.map((pos, i) => (
-        <mesh key={`headlight-${i}`} position={pos}>
-          <sphereGeometry args={[specs.headlightSize, 16, 16]} />
-          <meshPhysicalMaterial
-            color="#f0f8ff"
-            emissive="#ffffff"
-            emissiveIntensity={0.2}
-            metalness={0}
-            roughness={0}
-            transmission={0.8}
+        <group key={`headlight-${i}`} position={pos as [number, number, number]}>
+          <mesh>
+            <sphereGeometry args={[specs.headlightSize, 20, 20]} />
+            <meshPhysicalMaterial
+              color="#f8f8ff"
+              emissive="#ffffff"
+              emissiveIntensity={0.3}
+              metalness={0}
+              roughness={0}
+              transmission={0.9}
+              thickness={0.1}
+            />
+          </mesh>
+          <pointLight
+            position={[0, 0, 0.1]}
+            intensity={0.5}
+            distance={5}
+            color="#ffffff"
           />
-        </mesh>
+        </group>
       ))}
-      
-      {/* Front grille with mesh pattern */}
+
+      {/* Modern front grille */}
       <mesh position={[0, 0, specs.mainBody.length/2 + specs.frontSection.length + 0.02]}>
         <boxGeometry args={[specs.grille.width, specs.grille.height, specs.grille.depth]} />
-        <meshStandardMaterial color="#2a2a2a" metalness={0.7} roughness={0.3} />
+        <meshStandardMaterial 
+          color="#1a1a1a" 
+          metalness={0.8} 
+          roughness={0.2}
+        />
       </mesh>
-      
-      {/* Realistic wheels with detailed rims */}
+
+      {/* High-detail wheels with sport rims */}
       {specs.wheelPositions.map((pos, i) => (
-        <group key={i} position={pos}>
-          {/* Tire with tread pattern */}
+        <group key={i} position={pos as [number, number, number]}>
+          {/* Tire with realistic tread */}
           <mesh rotation={[Math.PI / 2, 0, 0]} castShadow>
             <cylinderGeometry args={[specs.wheelSize.radius, specs.wheelSize.radius, specs.wheelSize.width, 32]} />
-            <meshStandardMaterial color="#1a1a1a" roughness={0.8} />
+            <meshStandardMaterial 
+              color="#0a0a0a" 
+              roughness={0.9}
+              normalScale={[0.5, 0.5]}
+            />
           </mesh>
-          {/* Rim */}
-          <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, specs.wheelSize.width/4]}>
-            <cylinderGeometry args={[specs.wheelSize.radius * 0.7, specs.wheelSize.radius * 0.7, specs.wheelSize.width/4, 16]} />
-            <meshStandardMaterial color="#c0c0c0" metalness={0.9} roughness={0.1} />
-          </mesh>
-          {/* Hub cap */}
+          {/* Sport rim */}
           <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, specs.wheelSize.width/3]}>
-            <cylinderGeometry args={[specs.wheelSize.radius * 0.3, specs.wheelSize.radius * 0.3, specs.wheelSize.width/6, 8]} />
-            <meshStandardMaterial color="#808080" metalness={0.8} roughness={0.2} />
+            <cylinderGeometry args={[specs.wheelSize.radius * 0.75, specs.wheelSize.radius * 0.75, specs.wheelSize.width/3, 20]} />
+            <meshStandardMaterial 
+              color="#e0e0e0" 
+              metalness={0.95} 
+              roughness={0.05}
+            />
+          </mesh>
+          {/* Center hub */}
+          <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0, specs.wheelSize.width/2.5]}>
+            <cylinderGeometry args={[specs.wheelSize.radius * 0.25, specs.wheelSize.radius * 0.25, specs.wheelSize.width/8, 12]} />
+            <meshStandardMaterial 
+              color="#606060" 
+              metalness={0.9} 
+              roughness={0.1}
+            />
           </mesh>
         </group>
       ))}
-      
-      {/* Side mirrors */}
-      <mesh position={[specs.roof.width/2 + 0.15, specs.mainBody.height/2 + 0.1, specs.roof.length/2 - 0.3]}>
-        <boxGeometry args={[0.08, 0.06, 0.12]} />
-        <meshStandardMaterial color="#2a2a2a" />
+
+      {/* Aerodynamic side mirrors */}
+      <mesh position={[specs.roof.width/2 + 0.2, specs.mainBody.height/2 + 0.2, specs.roof.length/2 - 0.4]}>
+        <boxGeometry args={[0.12, 0.08, 0.15]} />
+        <meshStandardMaterial color="#2a2a2a" metalness={0.7} roughness={0.3} />
       </mesh>
-      
-      <mesh position={[-specs.roof.width/2 - 0.15, specs.mainBody.height/2 + 0.1, specs.roof.length/2 - 0.3]}>
-        <boxGeometry args={[0.08, 0.06, 0.12]} />
-        <meshStandardMaterial color="#2a2a2a" />
+
+      <mesh position={[-specs.roof.width/2 - 0.2, specs.mainBody.height/2 + 0.2, specs.roof.length/2 - 0.4]}>
+        <boxGeometry args={[0.12, 0.08, 0.15]} />
+        <meshStandardMaterial color="#2a2a2a" metalness={0.7} roughness={0.3} />
       </mesh>
-      
-      {/* Taillights */}
-      <mesh position={[0.5, 0.1, -specs.mainBody.length/2 - specs.rearSection.length - 0.01]}>
-        <sphereGeometry args={[0.12, 16, 16]} />
+
+      {/* Modern LED taillights */}
+      <mesh position={[0.6, 0.15, -specs.mainBody.length/2 - specs.rearSection.length - 0.01]}>
+        <boxGeometry args={[0.3, 0.15, 0.05]} />
         <meshPhysicalMaterial
-          color="#ff4444"
+          color="#ff2020"
           emissive="#ff0000"
-          emissiveIntensity={0.1}
+          emissiveIntensity={0.2}
           metalness={0}
           roughness={0}
-          transmission={0.7}
+          transmission={0.8}
         />
       </mesh>
-      
-      <mesh position={[-0.5, 0.1, -specs.mainBody.length/2 - specs.rearSection.length - 0.01]}>
-        <sphereGeometry args={[0.12, 16, 16]} />
+
+      <mesh position={[-0.6, 0.15, -specs.mainBody.length/2 - specs.rearSection.length - 0.01]}>
+        <boxGeometry args={[0.3, 0.15, 0.05]} />
         <meshPhysicalMaterial
-          color="#ff4444"
+          color="#ff2020"
           emissive="#ff0000"
-          emissiveIntensity={0.1}
+          emissiveIntensity={0.2}
           metalness={0}
           roughness={0}
-          transmission={0.7}
+          transmission={0.8}
         />
       </mesh>
-      
-      {/* Door handles */}
-      {[-0.7, 0.7].map((x, i) => (
-        <mesh key={`handle-${i}`} position={[x, 0.2, 0.5]}>
-          <boxGeometry args={[0.15, 0.03, 0.06]} />
-          <meshStandardMaterial color="#c0c0c0" metalness={0.8} roughness={0.2} />
+
+      {/* Chrome door handles */}
+      {[-0.8, 0.8].map((x, i) => (
+        <mesh key={`handle-${i}`} position={[x, 0.25, 0.6]}>
+          <boxGeometry args={[0.18, 0.04, 0.08]} />
+          <meshStandardMaterial 
+            color="#c8c8c8" 
+            metalness={0.95} 
+            roughness={0.05}
+          />
         </mesh>
       ))}
+
+      {/* Rear spoiler for sporty look */}
+      {type === 'sedan' && (
+        <mesh position={[0, specs.mainBody.height/2 + 0.4, -specs.mainBody.length/2 - 0.3]}>
+          <boxGeometry args={[1.2, 0.08, 0.25]} />
+          <meshPhysicalMaterial
+            color={color}
+            metalness={0.9}
+            roughness={0.1}
+            clearcoat={1}
+            clearcoatRoughness={0.05}
+          />
+        </mesh>
+      )}
     </group>
   );
 };
